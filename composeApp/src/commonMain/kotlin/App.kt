@@ -40,7 +40,6 @@ fun App() {
                         asyncPainterResource("https://financialmodelingprep.com/image-stock/AAPL.png"),
                         "apple company image"
                     )
-                    Image(painterResource(Res.drawable.compose_multiplatform), null)
                     Text("Compose: $greeting")
                 }
             }

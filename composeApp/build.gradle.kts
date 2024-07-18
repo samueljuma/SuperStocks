@@ -9,6 +9,8 @@ plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsCompose)
     alias(libs.plugins.compose.compiler)
+    alias(libs.plugins.kotlinxSerialization)
+
 }
 
 kotlin {
@@ -50,6 +52,7 @@ kotlin {
     }
     
     sourceSets {
+
         val desktopMain by getting
         
         androidMain.dependencies {
@@ -66,6 +69,9 @@ kotlin {
             implementation(compose.components.uiToolingPreview)
             implementation(libs.kamel.image)
             implementation(libs.ktor.client.core)
+            implementation(libs.kotlinx.serialization.json)
+            implementation(libs.ktor.client.content.negotiation)
+            implementation(libs.ktor.serialization.kotlinx.json)
         }
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)
