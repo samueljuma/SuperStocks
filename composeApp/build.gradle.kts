@@ -30,16 +30,16 @@ kotlin {
         }
         binaries.executable()
     }
-    
+
     androidTarget {
         @OptIn(ExperimentalKotlinGradlePluginApi::class)
         compilerOptions {
             jvmTarget.set(JvmTarget.JVM_11)
         }
     }
-    
+
     jvm("desktop")
-    
+
     listOf(
         iosX64(),
         iosArm64(),
@@ -50,11 +50,11 @@ kotlin {
             isStatic = true
         }
     }
-    
+
     sourceSets {
 
         val desktopMain by getting
-        
+
         androidMain.dependencies {
             implementation(compose.preview)
             implementation(libs.androidx.activity.compose)
@@ -77,6 +77,17 @@ kotlin {
 
             api(libs.mvvm.core) // only ViewModel, EventsDispatcher, Dispatchers.UI
             api(libs.mvvm.compose) // api mvvm-core, getViewModel for Compose Multiplatform
+
+            api(compose.foundation)
+            api(compose.animation)
+
+            api("moe.tlaster:precompose:1.6.1")
+
+            api("moe.tlaster:precompose-molecule:1.6.1") // For Molecule intergration
+
+            api("moe.tlaster:precompose-viewmodel:1.6.1") // For ViewModel intergration
+
+            api("moe.tlaster:precompose-koin:1.6.1") // For Koin intergration
         }
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)
