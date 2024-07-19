@@ -72,7 +72,7 @@ val httpClient = HttpClient{
 }
 suspend fun getTickerDetails(): List<Pair<Ticker, CompanyProfile>> {
     val tickers = httpClient
-        .get("https://financialmodelingprep.com/api/v3/stock-screener?limit=20&apikey=Pl5zaRPXmbRdQqIs1THZKncZC63NzeNu")
+        .get("https://financialmodelingprep.com/api/v3/stock-screener?limit=3&apikey=Pl5zaRPXmbRdQqIs1THZKncZC63NzeNu")
         .body<List<Ticker>>()
     val tickerData = tickers.map { ticker ->
         val profile = getCompanyProfile(ticker.symbol)
@@ -92,6 +92,8 @@ fun StockListItem(ticker: Ticker, profile: CompanyProfile) {
     Column(
         modifier = Modifier.padding(8.dp)
             .background(Color.LightGray)
+            .fillMaxWidth(),
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Box(
             modifier = Modifier.size(64.dp)
