@@ -15,6 +15,7 @@ import model.Ticker
 
 data class StocksUiState(
     val tickersDetails: List<Pair<Ticker, CompanyProfile>> = emptyList(),
+    val selectedCompany: CompanyProfile? = null
 )
 
 class StocksViewModel : ViewModel() {
@@ -37,6 +38,12 @@ class StocksViewModel : ViewModel() {
 
     init {
         updateTickerDetails()
+    }
+
+    fun selectCompany(company: CompanyProfile){
+        _stockUiState.update {
+            it.copy(selectedCompany = company)
+        }
     }
 
     override fun onCleared() {

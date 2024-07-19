@@ -46,13 +46,17 @@ fun App() {
 fun StockListItem(
     ticker: Ticker,
     profile: CompanyProfile,
-    onItemClick: () -> Unit
+    onItemClick: (CompanyProfile) -> Unit,
+    viewModel: StocksViewModel
 ) {
     Column(
         modifier = Modifier.padding(8.dp)
             .background(Color.LightGray)
             .fillMaxWidth()
-            .clickable { onItemClick() },
+            .clickable {
+                onItemClick(profile)
+                viewModel.selectCompany(profile)
+            },
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Box(
@@ -73,11 +77,10 @@ fun StockListItem(
 
 @Composable
 fun StockListScreen(
-    onItemClick: () -> Unit
-){
+    viewModel: StocksViewModel,
+    onItemClick: (CompanyProfile) -> Unit
+) {
 
-    val viewModel: StocksViewModel =
-        getViewModel(Unit, viewModelFactory { StocksViewModel() })
     val stocksUiState: StocksUiState by viewModel.stockUiState.collectAsState()
 
     Column(
@@ -89,7 +92,7 @@ fun StockListScreen(
         AnimatedVisibility(visible = stocksUiState.tickersDetails.isNotEmpty()) {
             LazyColumn {
                 items(items = stocksUiState.tickersDetails) { (ticker, profile) ->
-                    StockListItem(ticker, profile, onItemClick)
+                    StockListItem(ticker, profile, onItemClick, viewModel)
                 }
             }
         }
@@ -102,15 +105,8 @@ fun StockListScreen(
 }
 
 @Composable
-fun StockDetailsScreen(){
-    val profile = CompanyProfile(
-        companyName = "Meta Platforms, Inc.",
-        image = "https://financialmodelingprep.com/image-stock/META.png",
-        symbol = "META",
-        price = 475.85,
-        mktCap = 1207009842372,
-        description = "Meta Platforms, Inc. engages in the development of products that enable people to connect and share with friends and family through mobile devices, personal computers, virtual reality headsets, and wearables worldwide."
-    )
+fun StockDetailsScreen(profile: CompanyProfile) {
+
     Column(
         modifier = Modifier.padding(8.dp)
             .background(Color.LightGray)

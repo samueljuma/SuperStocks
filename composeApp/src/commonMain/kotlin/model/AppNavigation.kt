@@ -2,33 +2,44 @@ package model
 
 import StockDetailsScreen
 import StockListScreen
+import StocksViewModel
 import androidx.compose.runtime.Composable
+import dev.icerock.moko.mvvm.compose.getViewModel
+import dev.icerock.moko.mvvm.compose.viewModelFactory
 import moe.tlaster.precompose.navigation.NavHost
 import moe.tlaster.precompose.navigation.rememberNavigator
 import moe.tlaster.precompose.navigation.transition.NavTransition
 
 @Composable
-fun AppNavigation(){
+fun AppNavigation() {
+
+    val viewModel: StocksViewModel =
+        getViewModel(Unit, viewModelFactory { StocksViewModel() })
     val navigator = rememberNavigator()
     NavHost(
         navigator = navigator,
         initialRoute = "home"
-    ){
+    ) {
         scene(
             route = "home",
             navTransition = NavTransition(),
-        ){
+        ) {
             StockListScreen(
-                onItemClick = {
-                    navigator.navigate(route = "detail", options = null)
+                viewModel,
+                onItemClick = { profile ->
+
+//                    val encodedProfile = Json.encodeToString(profile)
+                    navigator.navigate(route = "detail")
                 }
             )
         }
         scene(
             route = "detail",
             navTransition = NavTransition(),
-        ){
-            StockDetailsScreen()
+        ) {
+            viewModel.stockUiState.value.selectedCompany?.let { StockDetailsScreen(it) }
+//
         }
     }
+
 }
