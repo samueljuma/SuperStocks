@@ -1,5 +1,5 @@
+
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -10,7 +10,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.Button
+import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
@@ -18,75 +18,45 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import dev.icerock.moko.mvvm.compose.getViewModel
+import dev.icerock.moko.mvvm.compose.viewModelFactory
 import io.kamel.image.KamelImage
 import io.kamel.image.asyncPainterResource
-import io.ktor.client.HttpClient
-import io.ktor.client.call.body
-import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
-import io.ktor.client.request.get
-import io.ktor.serialization.kotlinx.json.json
-import kotlinx.serialization.json.Json
 import model.CompanyProfile
 import model.Ticker
-import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
-import superstocks.composeapp.generated.resources.Res
-import superstocks.composeapp.generated.resources.compose_multiplatform
 
 @Composable
 @Preview
 fun App() {
     MaterialTheme {
 
-        var listOfTickers by remember { mutableStateOf(listOf<Pair<Ticker, CompanyProfile>>()) }
-
-        LaunchedEffect(Unit){
-            listOfTickers = getTickerDetails()
-        }
+        val viewModel: StocksViewModel = getViewModel(Unit, viewModelFactory { StocksViewModel() })
+        val stocksUiState: StocksUiState by viewModel.stockUiState.collectAsState()
 
         Column(
             Modifier.fillMaxSize(),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
         ) {
 
-            LazyColumn {
-                items(items = listOfTickers){ (ticker, profile) ->
-                    StockListItem(ticker, profile)
+            AnimatedVisibility(visible = stocksUiState.tickersDetails.isNotEmpty()){
+                LazyColumn {
+                    items(items = stocksUiState.tickersDetails){ (ticker, profile) ->
+                        StockListItem(ticker, profile)
+                    }
                 }
             }
+            AnimatedVisibility(visible = stocksUiState.tickersDetails.isEmpty()){
+                CircularProgressIndicator()
+            }
+
+
         }
     }
 }
 
-val httpClient = HttpClient{
-    //configuring client to enable serialization and content negotiation
-    install(ContentNegotiation){
-        json(
-            Json {
-                ignoreUnknownKeys = true
-                isLenient = true
-                prettyPrint = true
-            }
-        )
-    }
-}
-suspend fun getTickerDetails(): List<Pair<Ticker, CompanyProfile>> {
-    val tickers = httpClient
-        .get("https://financialmodelingprep.com/api/v3/stock-screener?limit=3&apikey=Pl5zaRPXmbRdQqIs1THZKncZC63NzeNu")
-        .body<List<Ticker>>()
-    val tickerData = tickers.map { ticker ->
-        val profile = getCompanyProfile(ticker.symbol)
-        ticker to profile
-    }
-    return tickerData
-}
-
-suspend fun getCompanyProfile(ticker: String): CompanyProfile {
-    val companyDetails = httpClient.get("https://financialmodelingprep.com/api/v3/profile/$ticker?apikey=Pl5zaRPXmbRdQqIs1THZKncZC63NzeNu")
-        .body<List<CompanyProfile>>()
-    return companyDetails.first()
-
-}
 @Composable
 fun StockListItem(ticker: Ticker, profile: CompanyProfile) {
     Column(

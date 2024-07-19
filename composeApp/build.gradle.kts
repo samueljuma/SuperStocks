@@ -72,6 +72,9 @@ kotlin {
             implementation(libs.kotlinx.serialization.json)
             implementation(libs.ktor.client.content.negotiation)
             implementation(libs.ktor.serialization.kotlinx.json)
+
+            api(libs.mvvm.core) // only ViewModel, EventsDispatcher, Dispatchers.UI
+            api(libs.mvvm.compose) // api mvvm-core, getViewModel for Compose Multiplatform
         }
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)
