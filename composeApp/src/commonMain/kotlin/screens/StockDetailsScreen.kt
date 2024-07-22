@@ -14,8 +14,15 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.ClickableText
 import androidx.compose.material.Card
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
+import androidx.compose.material.TopAppBar
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -36,18 +43,38 @@ import model.CompanyProfile
 import utils.formattedAmountLong
 
 @Composable
-fun StockDetailsScreen(profile: CompanyProfile) {
-    Column(
-        modifier = Modifier.padding(top = 4.dp, bottom = 4.dp, start = 2.dp, end = 2.dp)
-            .fillMaxSize(),
-        horizontalAlignment = Alignment.CenterHorizontally,
+fun StockDetailsScreen(
+    profile: CompanyProfile,
+    onBackPressed : () -> Unit
     ) {
-        LazyColumn{
-            item {
-                StockDetailsScreenContent(profile)
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                title = { Text(text = "Stock Details") },
+                backgroundColor = Color.Gray,
+                contentColor = Color.White,
+                navigationIcon = {
+                    IconButton(onClick = { onBackPressed() }) {
+                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
+                    }
+                }
+            )
+        },
+        content = {
+            Column(
+                modifier = Modifier.padding(top = 4.dp, bottom = 4.dp, start = 2.dp, end = 2.dp)
+                    .fillMaxSize(),
+                horizontalAlignment = Alignment.CenterHorizontally,
+            ) {
+                LazyColumn{
+                    item {
+                        StockDetailsScreenContent(profile)
+                    }
+                }
             }
         }
-    }
+    )
+
 
 }
 
@@ -138,44 +165,6 @@ fun StockDetailsScreenContent(profile: CompanyProfile) {
                         Text(
                             fontWeight = FontWeight.Bold,
                             text = "${profile.price}",
-                            fontSize = 14.sp,
-                        )
-                    }
-
-                }
-//------------------------------------------------------------------------------------------------------------------------
-                Spacer(modifier = Modifier.height(8.dp))
-
-                Row(
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    Column(
-                        verticalArrangement = Arrangement.Center,
-                        horizontalAlignment = Alignment.Start,
-                        modifier = Modifier.weight(1f)
-                    ) {
-                        Text(
-                            text = "Exchange ",
-                            fontSize = 14.sp,
-                        )
-                        Text(
-                            fontWeight = FontWeight.Bold,
-                            text = "${profile.exchangeShortName}",
-                            fontSize = 14.sp,
-                        )
-                    }
-
-                    Column(
-                        verticalArrangement = Arrangement.Center,
-                        horizontalAlignment = Alignment.End
-                    ) {
-                        Text(
-                            text = "IPO Date ",
-                            fontSize = 14.sp,
-                        )
-                        Text(
-                            fontWeight = FontWeight.Bold,
-                            text = "${profile.ipoDate}",
                             fontSize = 14.sp,
                         )
                     }
@@ -312,7 +301,7 @@ fun StockDetailsScreenContent(profile: CompanyProfile) {
                     )
                     Text(
                         text = profile.description ?: "",
-                        maxLines = if (expanded) Int.MAX_VALUE else 2,
+                        maxLines = if (expanded) Int.MAX_VALUE else 3,
                         overflow = if (expanded) TextOverflow.Visible else TextOverflow.Ellipsis
                     )
                     ClickableText(

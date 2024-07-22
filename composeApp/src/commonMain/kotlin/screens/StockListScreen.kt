@@ -16,8 +16,13 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.ClickableText
 import androidx.compose.material.Card
 import androidx.compose.material.CircularProgressIndicator
+import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
+import androidx.compose.material.TopAppBar
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ThumbUp
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -49,60 +54,74 @@ fun StockListScreen(
 
     val stocksUiState: StocksUiState by viewModel.stockUiState.collectAsState()
 
-    Column(
-        Modifier.fillMaxSize()
-            .padding(top = 16.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-    ) {
-
-        AnimatedVisibility(visible = stocksUiState.tickersDetails.isNotEmpty()) {
-            Column {
-                val mostValued = stocksUiState.tickersDetails.first()
-
-                Text(
-                    text = "#1 by Market Cap",
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 18.sp,
-                    modifier = Modifier.padding(8.dp)
-                )
-                LazyColumn {
-                    item {
-                        CompanyProfileCard(mostValued.second)
-                    }
-                }
-
-                Text(
-                    text = "Top #10 by Market Cap",
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 18.sp,
-                    modifier = Modifier.padding(8.dp)
-                )
-
-                LazyColumn(
-                    modifier = Modifier.padding(8.dp)
-                ) {
-
-                    items(items = stocksUiState.tickersDetails) { (ticker, profile) ->
-                        StockListItem(ticker, profile, onItemClick, viewModel)
-                    }
-                }
-            }
-
-        }
-        AnimatedVisibility(visible = stocksUiState.tickersDetails.isEmpty()) {
+    Scaffold (
+        topBar = {
+            TopAppBar(
+                title = { Text("SuperStocks") },
+                backgroundColor = Color.Gray,
+                contentColor = Color.White,
+            )
+        },
+        content = {
             Column(
-                modifier = Modifier.fillMaxSize(),
+                Modifier.fillMaxSize()
+                    .padding(top = 16.dp),
                 horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center
             ) {
-                CircularProgressIndicator()
-            }
 
+                AnimatedVisibility(visible = stocksUiState.tickersDetails.isNotEmpty()) {
+                    Column {
+                        val mostValued = stocksUiState.tickersDetails.first()
+
+                        Text(
+                            text = "#1 by Market Cap",
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 18.sp,
+                            modifier = Modifier.padding(8.dp)
+                        )
+                        LazyColumn {
+                            item {
+                                CompanyProfileCard(mostValued.second)
+                            }
+                        }
+
+                        Text(
+                            text = "Top #10 by Market Cap",
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 18.sp,
+                            modifier = Modifier.padding(8.dp)
+                        )
+
+                        LazyColumn(
+                            modifier = Modifier.padding(8.dp)
+                        ) {
+
+                            items(items = stocksUiState.tickersDetails) { (ticker, profile) ->
+                                StockListItem(ticker, profile, onItemClick, viewModel)
+                            }
+                        }
+                    }
+
+                }
+                AnimatedVisibility(visible = stocksUiState.tickersDetails.isEmpty()) {
+                    Column(
+                        modifier = Modifier.fillMaxSize(),
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.Center
+                    ) {
+                        CircularProgressIndicator()
+                    }
+
+                }
+
+
+            }
         }
 
+    )
 
-    }
 }
+
 
 @Composable
 fun StockListItem(

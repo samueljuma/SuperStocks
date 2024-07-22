@@ -9,8 +9,7 @@ import viewmodel.StocksViewModel
 
 @Composable
 fun AppNavigation() {
-    val viewModel: StocksViewModel =
-        getViewModel(Unit, viewModelFactory { StocksViewModel() })
+    val viewModel: StocksViewModel = getViewModel(Unit, viewModelFactory { StocksViewModel() })
     val navigator = rememberNavigator()
     NavHost(
         navigator = navigator,
@@ -34,9 +33,13 @@ fun AppNavigation() {
             navTransition = NavTransition(),
         ) {
             viewModel.stockUiState.value.selectedCompany?.let {
-                StockDetailsScreen(it)
+                StockDetailsScreen(
+                    it,
+                    onBackPressed = {
+                        navigator.popBackStack()
+                    }
+                )
             }
-//
         }
     }
 
