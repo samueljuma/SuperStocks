@@ -1,3 +1,5 @@
+package viewmodel
+
 import dev.icerock.moko.mvvm.viewmodel.ViewModel
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
@@ -60,7 +62,7 @@ class StocksViewModel : ViewModel() {
     }
     private suspend fun getTickerDetails(): List<Pair<Ticker, CompanyProfile>> {
         val tickers = httpClient
-            .get("https://financialmodelingprep.com/api/v3/stock-screener?limit=3&apikey=Pl5zaRPXmbRdQqIs1THZKncZC63NzeNu")
+            .get("https://financialmodelingprep.com/api/v3/stock-screener?limit=6&apikey=Pl5zaRPXmbRdQqIs1THZKncZC63NzeNu")
             .body<List<Ticker>>()
         val tickerData = tickers.map { ticker ->
             val profile = getCompanyProfile(ticker.symbol)
