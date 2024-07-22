@@ -41,7 +41,6 @@ import androidx.compose.ui.unit.sp
 import io.kamel.image.KamelImage
 import io.kamel.image.asyncPainterResource
 import model.CompanyProfile
-import model.Ticker
 import utils.formattedAmountLong
 import viewmodel.StocksUiState
 import viewmodel.StocksViewModel
@@ -81,7 +80,7 @@ fun StockListScreen(
                         )
                         LazyColumn {
                             item {
-                                CompanyProfileCard(mostValued.second)
+                                CompanyProfileCard(mostValued)
                             }
                         }
 
@@ -96,8 +95,10 @@ fun StockListScreen(
                             modifier = Modifier.padding(8.dp)
                         ) {
 
-                            items(items = stocksUiState.tickersDetails) { (ticker, profile) ->
-                                StockListItem(ticker, profile, onItemClick, viewModel)
+                            items(items = stocksUiState.tickersDetails.filter {
+                                it.isFund == false && it.isEtf == false
+                            }) {  profile ->
+                                StockListItem(profile, onItemClick, viewModel)
                             }
                         }
                     }
@@ -125,7 +126,6 @@ fun StockListScreen(
 
 @Composable
 fun StockListItem(
-    ticker: Ticker,
     profile: CompanyProfile,
     onItemClick: (CompanyProfile) -> Unit,
     viewModel: StocksViewModel
