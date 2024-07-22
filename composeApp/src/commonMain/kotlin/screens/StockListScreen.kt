@@ -23,6 +23,7 @@ import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ThumbUp
+import androidx.compose.material.icons.filled.Warning
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -41,9 +42,8 @@ import androidx.compose.ui.unit.sp
 import io.kamel.image.KamelImage
 import io.kamel.image.asyncPainterResource
 import model.CompanyProfile
-import model.Ticker
+import utils.StocksUiState
 import utils.formattedAmountLong
-import viewmodel.StocksUiState
 import viewmodel.StocksViewModel
 
 @Composable
@@ -81,7 +81,7 @@ fun StockListScreen(
                         )
                         LazyColumn {
                             item {
-                                CompanyProfileCard(mostValued.second)
+                                CompanyProfileCard(mostValued)
                             }
                         }
 
@@ -96,14 +96,16 @@ fun StockListScreen(
                             modifier = Modifier.padding(8.dp)
                         ) {
 
-                            items(items = stocksUiState.tickersDetails) { (ticker, profile) ->
-                                StockListItem(ticker, profile, onItemClick, viewModel)
+                            items(items = stocksUiState.tickersDetails.filter {
+                                it.isFund == false && it.isEtf == false
+                            }) {  profile ->
+                                StockListItem(profile, onItemClick, viewModel)
                             }
                         }
                     }
 
                 }
-                AnimatedVisibility(visible = stocksUiState.tickersDetails.isEmpty()) {
+                AnimatedVisibility(visible = stocksUiState.isLoading) {
                     Column(
                         modifier = Modifier.fillMaxSize(),
                         horizontalAlignment = Alignment.CenterHorizontally,
@@ -112,6 +114,29 @@ fun StockListScreen(
                         CircularProgressIndicator()
                     }
 
+                }
+                AnimatedVisibility(visible = stocksUiState.error !=null){
+                    Column(
+                        modifier = Modifier.fillMaxSize(),
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.Center
+                    ) {
+//                        Text(text = stocksUiState.error ?: "It Appears there was an Error")
+                        Icon(
+                            imageVector = Icons.Default.Warning,
+                            contentDescription = "Error",
+                            tint = Color.Red,
+                            modifier = Modifier.size(40.dp)
+                        )
+                        Text(
+                            text = "It appears there was an Error. Try again later",
+                            fontSize = 16.sp,
+                            color = Color.Red,
+                            fontWeight = FontWeight.Bold,
+                            modifier = Modifier.padding(16.dp)
+                                .align(Alignment.CenterHorizontally)
+                        )
+                    }
                 }
 
 
@@ -125,7 +150,6 @@ fun StockListScreen(
 
 @Composable
 fun StockListItem(
-    ticker: Ticker,
     profile: CompanyProfile,
     onItemClick: (CompanyProfile) -> Unit,
     viewModel: StocksViewModel
