@@ -36,7 +36,7 @@ fun AppNavigation() {
             route = "detail",
             navTransition = NavTransition(),
         ) {
-            viewModel.stockUiState.value.selectedCompany?.let {
+            viewModel.selectedCompany.value?.let {
                 StockDetailsScreen(
                     it,
                     onBackPressed = {

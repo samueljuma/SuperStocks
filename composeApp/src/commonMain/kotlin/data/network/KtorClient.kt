@@ -30,7 +30,9 @@ class KtorClient {
     suspend fun getTickerDetails(): List<CompanyProfile> {
         val tickers = httpClient
             .get("https://financialmodelingprep.com/api/v3/stock-screener") {
-                parameter("limit", 20)
+                parameter("limit", 4)
+                parameter("isEtf", false)
+                parameter("isFund", false)
                 parameter("apikey", apiKey)
             }
             .body<List<Ticker>>()

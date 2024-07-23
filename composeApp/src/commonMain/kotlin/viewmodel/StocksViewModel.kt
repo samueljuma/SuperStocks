@@ -21,14 +21,15 @@ class StocksViewModel(
     private val _stockUiState = MutableStateFlow(StocksUiState())
     val stockUiState: StateFlow<StocksUiState> = _stockUiState.asStateFlow()
 
+    private val _selectedCompany = MutableStateFlow<CompanyProfile?>(null)
+    val selectedCompany: StateFlow<CompanyProfile?> = _selectedCompany.asStateFlow()
+
     init {
         updateTickerDetails()
     }
 
     fun selectCompany(company: CompanyProfile) {
-        _stockUiState.update {
-            it.copy(selectedCompany = company)
-        }
+        _selectedCompany.value = company
     }
 
     override fun onCleared() {

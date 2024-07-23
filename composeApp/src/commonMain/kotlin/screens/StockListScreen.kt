@@ -96,9 +96,7 @@ fun StockListScreen(
                             modifier = Modifier.padding(8.dp)
                         ) {
 
-                            items(items = stocksUiState.tickersDetails.filter {
-                                it.isFund == false && it.isEtf == false
-                            }) {  profile ->
+                            items(items = stocksUiState.tickersDetails) {  profile ->
                                 StockListItem(profile, onItemClick, viewModel)
                             }
                         }

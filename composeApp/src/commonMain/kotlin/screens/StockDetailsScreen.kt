@@ -279,7 +279,7 @@ fun StockDetailsScreenContent(profile: CompanyProfile) {
                         )
                         Text(
                             fontWeight = FontWeight.Bold,
-                            text = "${profile.website}",
+                            text = profile.website!!.substringAfter("www."),
                             fontSize = 14.sp,
                         )
                     }
