@@ -10,6 +10,7 @@ plugins {
     alias(libs.plugins.jetbrainsCompose)
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.kotlinxSerialization)
+    alias(libs.plugins.sqldelight)
 
 }
 
@@ -60,6 +61,11 @@ kotlin {
             implementation(libs.androidx.activity.compose)
             implementation(libs.ktor.client.android)
             implementation(libs.kotlinx.coroutines.android)
+            implementation(libs.koin.androidx.compose)
+            implementation(libs.android.driver)
+            implementation(libs.androidx.compose.material3)
+
+
         }
         commonMain.dependencies {
             implementation(compose.runtime)
@@ -81,22 +87,25 @@ kotlin {
             api(compose.foundation)
             api(compose.animation)
 
-            api("moe.tlaster:precompose:1.6.1")
+            api(libs.precompose)
+            api(libs.precompose.molecule) // For Molecule intergration
+            api(libs.precompose.viewmodel) // For ViewModel intergration
+            api(libs.precompose.koin) // For Koin intergration
 
-            api("moe.tlaster:precompose-molecule:1.6.1") // For Molecule intergration
+            implementation(libs.koin.core)
+            implementation(libs.runtime)
 
-            api("moe.tlaster:precompose-viewmodel:1.6.1") // For ViewModel intergration
-
-            api("moe.tlaster:precompose-koin:1.6.1") // For Koin intergration
         }
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)
             implementation(libs.ktor.client.cio)
             implementation(libs.logback.classic)
             implementation(libs.kotlinx.coroutines.swing)
+            implementation(libs.jvm.driver)
         }
         iosMain.dependencies {
             implementation(libs.ktor.client.darwin)
+            implementation(libs.native.driver)
         }
         wasmJsMain.dependencies {
             implementation(libs.ktor.client.js)
