@@ -1,5 +1,5 @@
 # SuperStocks
-SuperStocks is a compose multiplatform project that gets Realtime data for the top #10 companies around the world, by market capitalization. I am getting the data from the Financial Modelling Prep (FMP) API: https://site.financialmodelingprep.com/ which I found to be a great source for financial data. The App is made to be simple with a simple UI (as you can see from the screenshots below) and displays the top #10 companies by market cap along with few key details that users might find useful. 
+SuperStocks is a compose multiplatform project that gets Realtime data for the top #10 companies around the world, by market capitalization. I am getting the data from the [Financial Modelling Prep (FMP) API:](https://site.financialmodelingprep.com/) 
 
 ## Built with?
 ### Development Environment
@@ -29,7 +29,9 @@ SuperStocks is a compose multiplatform project that gets Realtime data for the t
   - In the run configurations select edit configurations 
   - Click the plus icon and select Gradle from the options 
   - Paste this command in the tasks and arguments field and click ok 
-  ```desktopRun -DmainClass=MainKt --quiet ```
+```
+desktopRun -DmainClass=MainKt --quiet 
+```
   - Run the new desktopRun configuration 
 
 ## Resources that Came In Handy
