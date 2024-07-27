@@ -32,7 +32,7 @@ SuperStocks is a compose multiplatform project that gets Realtime data for the t
 ```
 desktopRun -DmainClass=MainKt --quiet 
 ```
-  - Run the new desktopRun configuration 
+  - Run the new desktopRun configuration  
 
 ## Resources that Came In Handy
 - [Create a Compose Multiplatform app — tutorial](https://www.jetbrains.com/help/kotlin-multiplatform-dev/compose-multiplatform-getting-started.html ) 
