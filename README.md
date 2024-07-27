@@ -1,5 +1,5 @@
 # SuperStocks
-SuperStocks is a compose multiplatform project that gets Realtime data for the top #10 companies around the world, by market capitalization. I am getting the data from the [Financial Modelling Prep (FMP) API:](https://site.financialmodelingprep.com/) 
+SuperStocks is a compose multiplatform project that gets Realtime data for the top #10 companies around the world, by market capitalization. I am getting the data from the [Financial Modelling Prep (FMP) API](https://site.financialmodelingprep.com/) 
 
 ## Built with?
 ### Development Environment
