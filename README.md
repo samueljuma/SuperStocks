@@ -29,9 +29,9 @@ SuperStocks is a compose multiplatform project that gets Realtime data for the t
   - In the run configurations select edit configurations 
   - Click the plus icon and select Gradle from the options 
   - Paste this command in the tasks and arguments field and click ok 
-```
-desktopRun -DmainClass=MainKt --quiet 
-```
+  ```
+  desktopRun -DmainClass=MainKt --quiet 
+  ```
   - Run the new desktopRun configuration  
 
 ## Resources that Came In Handy
