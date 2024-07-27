@@ -1,21 +1,38 @@
-This is a Kotlin Multiplatform project targeting Android, iOS, Web, Desktop.
+# SuperStocks
+SuperStocks is a compose multiplatform project that gets Realtime data for the top #10 companies around the world, by market capitalization. I am getting the data from the Financial Modelling Prep (FMP) API: https://site.financialmodelingprep.com/ which I found to be a great source for financial data. The App is made to be simple with a simple UI (as you can see from the screenshots below) and displays the top #10 companies by market cap along with few key details that users might find useful. 
 
-* `/composeApp` is for code that will be shared across your Compose Multiplatform applications.
-  It contains several subfolders:
-  - `commonMain` is for code that’s common for all targets.
-  - Other folders are for Kotlin code that will be compiled for only the platform indicated in the folder name.
-    For example, if you want to use Apple’s CoreCrypto for the iOS part of your Kotlin app,
-    `iosMain` would be the right folder for such calls.
+## Built with?
+### Development Environment
+- Android Studio Koala | 2024.1.1 Patch 1
+### Libraries
+- [Kamel](https://github.com/Kamel-Media/Kamel) - for Loading Images 
+- [Ktor](https://github.com/ktorio/ktor ) – for network calls 
+- [Kotlinx serialization](https://github.com/Kotlin/kotlinx.serialization) – for serialization and deserializing objects of custom types  
+- [Moko mvvm](https://github.com/icerockdev/moko-mvvm ) – for the apps architecture components (MVVM) 
+- [Kotlinx coroutines](https://github.com/Kotlin/kotlinx.coroutines ) – for asynchronous tasks 
+- [Precompose](https://github.com/Tlaster/PreCompose ) – for navigation within the App 
 
-* `/iosApp` contains iOS applications. Even if you’re sharing your UI with Compose Multiplatform, 
-  you need this entry point for your iOS app. This is also where you should add SwiftUI code for your project.
+## Screenshots 
+### Android
+| <img src="screenshots/1.png"/>  | <img src="screenshots/2.png"/>  | <img src="screenshots/3.png"/>  | <img src="screenshots/4.png"/> |
+|:-------------------------------:|:-------------------------------:|:-------------------------------:|:------------------------------:|
 
+### Desktop
+| <img src="screenshots/d1.png"/> | <img src="screenshots/d2.png"/> | <img src="screenshots/d3.png"/> |
+|:-------------------------------:|:-------------------------------:|:-------------------------------:|
 
-Learn more about [Kotlin Multiplatform](https://www.jetbrains.com/help/kotlin-multiplatform-dev/get-started.html),
-[Compose Multiplatform](https://github.com/JetBrains/compose-multiplatform/#compose-multiplatform),
-[Kotlin/Wasm](https://kotl.in/wasm/)…
+## Want to test the project ? 
+- Clone the Repository on your local machine 
+- For Android: 
+  - Select composeApp in the run configurations and click run
+- For desktop: 
+  - In the run configurations select edit configurations 
+  - Click the plus icon and select Gradle from the options 
+  - Paste this command in the tasks and arguments field and click ok 
+  ```desktopRun -DmainClass=MainKt --quiet ```
+  - Run the new desktopRun configuration 
 
-We would appreciate your feedback on Compose/Web and Kotlin/Wasm in the public Slack channel [#compose-web](https://slack-chats.kotlinlang.org/c/compose-web).
-If you face any issues, please report them on [GitHub](https://github.com/JetBrains/compose-multiplatform/issues).
-
-You can open the web application by running the `:composeApp:wasmJsBrowserDevelopmentRun` Gradle task.
+## Resources that Came In Handy
+- [Create a Compose Multiplatform app — tutorial](https://www.jetbrains.com/help/kotlin-multiplatform-dev/compose-multiplatform-getting-started.html ) 
+- [Build Apps for iOS, Android, and Desktop With Compose Multiplatform](https://www.youtube.com/watch?v=IGuVIRZzVTk&t=124s) 
+- [Create a multiplatform app using Ktor and SQLDelight](https://www.jetbrains.com/help/kotlin-multiplatform-dev/multiplatform-ktor-sqldelight.html) 
