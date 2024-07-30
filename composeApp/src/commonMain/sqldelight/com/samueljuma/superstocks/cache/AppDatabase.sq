@@ -1,0 +1,34 @@
+
+CREATE TABLE CompanyProfileEntity(
+    symbol TEXT NOT NULL PRIMARY KEY,
+    ceo TEXT,
+    companyName TEXT,
+    country TEXT,
+    currency TEXT,
+    description TEXT,
+    exchangeShortName TEXT,
+    image TEXT,
+    industry TEXT,
+    ipoDate TEXT,
+    isEtf INTEGER,
+    isFund INTEGER,
+    mktCap INTEGER,
+    price REAL,
+    sector TEXT,
+    website TEXT
+);
+
+-- Insert a new company profile
+insertOrReplace:
+INSERT OR REPLACE INTO CompanyProfileEntity (
+    symbol, ceo, companyName, country, currency, description,
+    exchangeShortName, image, industry, ipoDate, isEtf, isFund, mktCap, price, sector, website
+) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
+
+-- Retrieve all company profiles
+selectAll:
+SELECT * FROM CompanyProfileEntity;
+
+-- Delete all company profiles
+deleteAll:
+DELETE FROM CompanyProfileEntity;

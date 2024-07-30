@@ -30,3 +30,6 @@ fun formatAmountDouble(amount: Double): String {
 
     return formattedAmount.reverse().toString()
 }
+fun Boolean?.toLong() = if (this == true) 1L else 0L
+
+fun Long?.toBoolean() = if (this == 1L) true else false

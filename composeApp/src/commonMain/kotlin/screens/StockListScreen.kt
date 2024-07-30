@@ -44,11 +44,12 @@ import io.kamel.image.asyncPainterResource
 import model.CompanyProfile
 import utils.StocksUiState
 import utils.formattedAmountLong
+import viewmodel.NewViewModel
 import viewmodel.StocksViewModel
 
 @Composable
 fun StockListScreen(
-    viewModel: StocksViewModel,
+    viewModel: NewViewModel,
     onItemClick: (CompanyProfile) -> Unit
 ) {
 
@@ -150,7 +151,7 @@ fun StockListScreen(
 fun StockListItem(
     profile: CompanyProfile,
     onItemClick: (CompanyProfile) -> Unit,
-    viewModel: StocksViewModel
+    viewModel: NewViewModel
 ) {
     Card(
         modifier = Modifier.padding(top = 8.dp, start = 4.dp, end = 4.dp)
