@@ -22,7 +22,6 @@ import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ThumbUp
 import androidx.compose.material.icons.filled.Warning
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -44,11 +43,11 @@ import io.kamel.image.asyncPainterResource
 import model.CompanyProfile
 import utils.StocksUiState
 import utils.formattedAmountLong
-import viewmodel.StocksViewModel
+import viewmodel.StockDataViewModel
 
 @Composable
 fun StockListScreen(
-    viewModel: StocksViewModel,
+    viewModel: StockDataViewModel,
     onItemClick: (CompanyProfile) -> Unit
 ) {
 
@@ -150,7 +149,7 @@ fun StockListScreen(
 fun StockListItem(
     profile: CompanyProfile,
     onItemClick: (CompanyProfile) -> Unit,
-    viewModel: StocksViewModel
+    viewModel: StockDataViewModel
 ) {
     Card(
         modifier = Modifier.padding(top = 8.dp, start = 4.dp, end = 4.dp)

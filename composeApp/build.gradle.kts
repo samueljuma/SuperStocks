@@ -10,6 +10,7 @@ plugins {
     alias(libs.plugins.jetbrainsCompose)
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.kotlinxSerialization)
+    alias(libs.plugins.sqldelight)
 
 }
 
@@ -60,6 +61,12 @@ kotlin {
             implementation(libs.androidx.activity.compose)
             implementation(libs.ktor.client.android)
             implementation(libs.kotlinx.coroutines.android)
+            implementation(libs.koin.androidx.compose)
+            implementation(libs.android.driver)
+            implementation(libs.androidx.compose.material3)
+            implementation(libs.androidx.lifecycle.viewmodel.compose)
+
+
         }
         commonMain.dependencies {
             implementation(compose.runtime)
@@ -74,6 +81,7 @@ kotlin {
             implementation(libs.ktor.client.content.negotiation)
             implementation(libs.ktor.serialization.kotlinx.json)
             implementation(libs.kotlinx.coroutines.core)
+            implementation(libs.coroutines.extensions)
 
             api(libs.mvvm.core) // only ViewModel, EventsDispatcher, Dispatchers.UI
             api(libs.mvvm.compose) // api mvvm-core, getViewModel for Compose Multiplatform
@@ -81,25 +89,34 @@ kotlin {
             api(compose.foundation)
             api(compose.animation)
 
-            api("moe.tlaster:precompose:1.6.1")
+            api(libs.precompose)
+            api(libs.precompose.molecule) // For Molecule intergration
+            api(libs.precompose.viewmodel) // For ViewModel intergration
+            api(libs.precompose.koin) // For Koin intergration
 
-            api("moe.tlaster:precompose-molecule:1.6.1") // For Molecule intergration
+            implementation(libs.koin.core)
+            implementation(libs.runtime)
 
-            api("moe.tlaster:precompose-viewmodel:1.6.1") // For ViewModel intergration
 
-            api("moe.tlaster:precompose-koin:1.6.1") // For Koin intergration
         }
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)
             implementation(libs.ktor.client.cio)
             implementation(libs.logback.classic)
             implementation(libs.kotlinx.coroutines.swing)
+            implementation(libs.jvm.driver)
         }
         iosMain.dependencies {
             implementation(libs.ktor.client.darwin)
+            implementation(libs.native.driver)
         }
         wasmJsMain.dependencies {
             implementation(libs.ktor.client.js)
+            implementation(libs.sqljs.driver)
+            implementation(npm("@cashapp/sqldelight-sqljs-worker", "2.0.2"))
+            implementation(npm("sql.js", "1.8.0"))
+            implementation("app.cash.sqldelight:web-worker-driver:2.0.2")
+            implementation(devNpm("copy-webpack-plugin", "9.1.0"))
         }
 
     }
@@ -150,6 +167,15 @@ compose.desktop {
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
             packageName = "com.samueljuma.superstocks"
             packageVersion = "1.0.0"
+        }
+    }
+}
+
+sqldelight {
+    databases {
+        create("AppDatabase") {
+            packageName.set("com.samueljuma.superstocks.cache")
+            generateAsync.set(true)
         }
     }
 }
