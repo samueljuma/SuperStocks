@@ -11,6 +11,7 @@ SuperStocks is a compose multiplatform project that gets Realtime data for the t
 - [Moko mvvm](https://github.com/icerockdev/moko-mvvm ) – for the apps architecture components (MVVM) 
 - [Kotlinx coroutines](https://github.com/Kotlin/kotlinx.coroutines ) – for asynchronous tasks 
 - [Precompose](https://github.com/Tlaster/PreCompose ) – for navigation within the App 
+- [SQLDelight](https://github.com/cashapp/sqldelight) - for implmenting offline caching
 
 ## Screenshots 
 ### Android
