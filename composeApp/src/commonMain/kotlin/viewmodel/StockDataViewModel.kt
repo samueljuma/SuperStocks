@@ -9,7 +9,9 @@ import kotlinx.coroutines.launch
 import model.CompanyProfile
 import moe.tlaster.precompose.viewmodel.ViewModel
 import moe.tlaster.precompose.viewmodel.viewModelScope
+import utils.Result
 import utils.StocksUiState
+import utils.asResult
 
 class NewViewModel(private val companyProfilesSDK: CompanyProfilesSDK) : ViewModel() {
     private val _stockUiState = MutableStateFlow(StocksUiState())
@@ -29,25 +31,31 @@ class NewViewModel(private val companyProfilesSDK: CompanyProfilesSDK) : ViewMod
     fun loadProfiles() {
         viewModelScope.launch {
             _stockUiState.value = _stockUiState.value.copy(isLoading = true, tickersDetails = emptyList())
-            try {
-                companyProfilesSDK.getAllCompanyProfiles()
-                    .collect { profiles ->
-                        _stockUiState.update {
-                            it.copy(
-                                isLoading = false,
-                                tickersDetails = profiles
-                            )
+
+                companyProfilesSDK.getAllCompanyProfiles().asResult()
+                    .collect { result ->
+
+                        when(result){
+                            is Result.Success -> {
+                                _stockUiState.update {
+                                    it.copy(
+                                        isLoading = false,
+                                        tickersDetails = result.data
+                                    )
+                                }
+                            }
+                            is Result.Error -> {
+                                _stockUiState.update {
+                                    it.copy(
+                                        isLoading = false,
+                                        error = result.error
+                                    )
+                                }
+                            }
                         }
 
                     }
-            } catch (e: Exception) {
-                _stockUiState.update {
-                    it.copy(
-                        isLoading = false,
-                        error = e.message
-                    )
-                }
-            }
+
         }
 
     }
