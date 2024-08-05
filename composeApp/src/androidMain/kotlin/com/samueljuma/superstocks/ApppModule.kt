@@ -4,9 +4,8 @@ import com.samueljuma.superstocks.cache.AndroidDatabaseDriverFactory
 import data.network.KtorClient
 import kotlinx.coroutines.Dispatchers
 import org.koin.android.ext.koin.androidContext
-import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
-import viewmodel.NewViewModel
+import viewmodel.StockDataViewModel
 
 val appModule = module {
     single <KtorClient> { KtorClient() }
@@ -22,6 +21,6 @@ val appModule = module {
     }
 
     factory {
-        NewViewModel(companyProfilesSDK = get())
+        StockDataViewModel(companyProfilesSDK = get())
     }
 }

@@ -1,19 +1,14 @@
 import androidx.compose.runtime.Composable
-import data.network.KtorClient
-import dev.icerock.moko.mvvm.compose.getViewModel
-import dev.icerock.moko.mvvm.compose.viewModelFactory
 import moe.tlaster.precompose.koin.koinViewModel
 import moe.tlaster.precompose.navigation.NavHost
 import moe.tlaster.precompose.navigation.rememberNavigator
 import moe.tlaster.precompose.navigation.transition.NavTransition
-import repository.TickerDetailsRepository
 import screens.StockDetailsScreen
-import viewmodel.NewViewModel
-import viewmodel.StocksViewModel
+import viewmodel.StockDataViewModel
 
 @Composable
 fun AppNavigation() {
-    val viewModel: NewViewModel = koinViewModel()
+    val viewModel: StockDataViewModel = koinViewModel()
     val navigator = rememberNavigator()
     NavHost(
         navigator = navigator,

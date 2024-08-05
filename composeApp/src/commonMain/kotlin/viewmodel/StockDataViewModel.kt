@@ -13,7 +13,7 @@ import utils.Result
 import utils.StocksUiState
 import utils.asResult
 
-class NewViewModel(private val companyProfilesSDK: CompanyProfilesSDK) : ViewModel() {
+class StockDataViewModel(private val companyProfilesSDK: CompanyProfilesSDK) : ViewModel() {
     private val _stockUiState = MutableStateFlow(StocksUiState())
     val stockUiState: StateFlow<StocksUiState> = _stockUiState.asStateFlow()
 
